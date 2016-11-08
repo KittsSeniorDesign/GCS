@@ -75,6 +75,7 @@ class XBOXController(ControllerBaseClass):
                 print('No controller detected, please plug one in.')
                 time.sleep(1)
                 pass
+                
     def pollController():
             while True:
             try:
@@ -84,5 +85,3 @@ class XBOXController(ControllerBaseClass):
                     
             except Exception as msg:
                 print(msg)
-
-		

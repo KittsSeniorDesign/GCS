@@ -5,32 +5,7 @@ from ControllerBaseClass import ControllerBaseClass
 
 class XBOXController(ControllerBaseClass):
 	"""docstring for XBOXController"""
-     # maxForward - 127 = 127 - maxBackward
-    maxForward = 220
-    maxBackward = 34
-    # maxSm = 255 - maxForward
-    maxSm = 35
-    # maxSp = maxForward - 127
-    maxSp = 93
-    lx = 0.0
-    ly = 0.0
-    rx = 0.0
-    ry = 0.0
-    leftMotor = 127
-    rightMotor = 127
-    deadzone = 2300
-    lights = False
-    speakers = False
-    autoMode = True
-    throttle = 0
-    steering = 0
-    kill = False
 
-    leftYValue = 0
-    leftXValue = 0
-
-    rightYValue = 0
-    rightXValue = 0
 
     #TY
     BUTTON = 1
@@ -61,12 +36,18 @@ class XBOXController(ControllerBaseClass):
     D_PAD_X = 6
     D_PAD_Y = 7
 
+    controllerData = 0
+
+    dataQueue = Queue(maxsize = QUEUESIZE)
+
 	def __init__(self, arg):
 		super(XBOXController, self).__init__()
-		self.connection = self.establishConnection
-		
+		self.connection = self.establishConnection()
+	
+
+    #Checks the connection, works with linux	
 	def establishConnection():
-		  connected = False
+		connected = False
         while not connected:
             try:
                 self.jsdev = open('/dev/input/js0', 'rb')
@@ -75,13 +56,27 @@ class XBOXController(ControllerBaseClass):
                 print('No controller detected, please plug one in.')
                 time.sleep(1)
                 pass
-                
+    #Reads events from the USB port, the XBOX controller gives four pieces of data
+    #time of event
+    #value of motion
+    #type of event
+    #number ID of input on controller
+    #It repacks the data to be in the format ty, number, value         
     def pollController():
-            while True:
+        while True:
             try:
                 evbuf = self.jsdev.read(8)
                 if evbuf:
                     time, value, ty, number = struct.unpack('IhBB', evbuf)
+
+                    controllerData = struct.pack('BBh', ty, number, value)
+                    #print(controllerData)
+                    addToQueue(controllerData)
                     
             except Exception as msg:
                 print(msg)
+
+    #Adds the controller data into the queue without blocking
+    def addToQueue(x):
+        dataQueue.put_nowait(x)
+

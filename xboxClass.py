@@ -40,14 +40,14 @@ class XBOXController(ControllerBaseClass):
 
     dataQueue = Queue(maxsize = QUEUESIZE)
 
-	def __init__(self, arg):
-		super(XBOXController, self).__init__()
-		self.connection = self.establishConnection()
+   def __init__(self, arg):
+	super(XBOXController, self).__init__()
+	self.connection = self.establishConnection()
 	
 
     #Checks the connection, works with linux	
-	def establishConnection():
-		connected = False
+   def establishConnection():
+	connected = False
         while not connected:
             try:
                 self.jsdev = open('/dev/input/js0', 'rb')

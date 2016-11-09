@@ -40,13 +40,13 @@ class XBOXController(ControllerBaseClass):
 
     dataQueue = Queue(maxsize = QUEUESIZE)
 
-   def __init__(self, arg):
+    def __init__(self, arg):
 	super(XBOXController, self).__init__()
 	self.connection = self.establishConnection()
 	
 
     #Checks the connection, works with linux	
-   def establishConnection():
+    def establishConnection():
 	connected = False
         while not connected:
             try:

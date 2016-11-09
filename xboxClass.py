@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 import evdev
 import serial
+
+from multiprocessing import Manager
+from mulitprocessing import Queue
+
 from ControllerBaseClass import ControllerBaseClass
 
 class XBOXController(ControllerBaseClass):
@@ -38,7 +42,8 @@ class XBOXController(ControllerBaseClass):
 
     controllerData = 0
 
-    dataQueue = Queue(maxsize = QUEUESIZE)
+    manager = Manager()
+    dataQueue = manager.Queue(maxsize = QUEUESIZE)
 
     def __init__(self, arg):
 	super(XBOXController, self).__init__()

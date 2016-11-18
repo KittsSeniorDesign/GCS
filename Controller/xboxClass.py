@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import evdev
+import pygame
 import serial
 
 from multiprocessing import Manager
@@ -45,18 +45,29 @@ class XBOXController(ControllerBaseClass):
     manager = Manager()
     dataQueue = manager.Queue(maxsize = QUEUESIZE)
 
-    def __init__(self, arg):
-	super(XBOXController, self).__init__()
-	self.connection = self.establishConnection()
+    def __init__(self,
+                 controllerNumber):
+        self.controllerNumber = controllerNumber
+        self.connection = establishConnection(controllerNumber)
+	
 	
 
     #Checks the connection, works with linux	
     def establishConnection():
-	connected = False
+        os.environ['SDL_VIDEODRIVER'] = 'dummy'
+	    connected = False
         while not connected:
             try:
-                self.jsdev = open('/dev/input/js0', 'rb')
-                connected = True
+
+                #Sets up Pygame
+                pygame.init()
+                screen = pygame.display.set_mode((1, 1))
+                pygame.joystick.init()
+
+                #Inits the Controller
+                connected = pygame.joystick.get_init()
+                self.device = pygame.joystick.Joystick(controllerNumber)
+                self.device.init()
             except Exception:
                 print('No controller detected, please plug one in.')
                 time.sleep(1)
@@ -69,17 +80,8 @@ class XBOXController(ControllerBaseClass):
     #It repacks the data to be in the format ty, number, value         
     def pollController():
         while True:
-            try:
-                evbuf = self.jsdev.read(8)
-                if evbuf:
-                    time, value, ty, number = struct.unpack('IhBB', evbuf)
-
-                    controllerData = struct.pack('BBh', ty, number, value)
-                    #print(controllerData)
-                    addToQueue(controllerData)
-                    
-            except Exception as msg:
-                print(msg)
+            for event in pygame.event.get():
+                
 
     #Adds the controller data into the queue without blocking
     def addToQueue(x):

@@ -23,6 +23,7 @@ source.Register(cmap);
 
     function alanssend( inputVector )
         inputVector = int8(inputVector);
+        inputVector = arrayfun(datamap, inputVector, -256, 256, 0, 2048);
         disp(inputVector);
     %UNTITLED2 Summary of this function goes here
     %   Detailed explanation goes here

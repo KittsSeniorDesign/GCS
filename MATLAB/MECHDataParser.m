@@ -23,5 +23,5 @@ function dataOut = MECHDataParser(dataIn)
 %     global connect2
 %     global connect connect1 connect2 connect3
 
-    evalin('base',dataOut);
+    assignin('base','postion',dataOut);
 end

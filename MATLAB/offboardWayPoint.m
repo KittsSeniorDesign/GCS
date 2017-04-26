@@ -20,6 +20,20 @@ end
 
 	while(1)
 		disp(position);
+		%Seperate into individual tag strings
+		tag1string = position(1:(paren(1)));
+
+
+		%Parse Tag data into x,y,z,t
+
+		% Finding the correct delimiters for tag1
+		comma = strfind(tag1string, ',');
+
+		x = str2num(tag1string(2:(comma(1)-1)));
+		y = str2num(tag1string((comma(1)+1):(comma(2)-1)));
+		z = str2num(tag1string((comma(2)+1):(comma(3)-1)));
+		h = str2num(tag1string((comma(3)+1):(end-1)));
+
 
 		if (x > waypointThresh | y > waypointThresh)
 			thetam = degtorad(thetam);

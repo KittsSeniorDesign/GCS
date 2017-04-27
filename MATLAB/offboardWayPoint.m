@@ -29,8 +29,8 @@ end
 		% Finding the correct delimiters for tag1
 		comma = strfind(tag1string, ',');
 
-		x = str2num(tag1string(2:(comma(1)-1)));
-		y = str2num(tag1string((comma(1)+1):(comma(2)-1)));
+		mx = str2num(tag1string(2:(comma(1)-1)));
+		my = str2num(tag1string((comma(1)+1):(comma(2)-1)));
 		z = str2num(tag1string((comma(2)+1):(comma(3)-1)));
 		h = str2num(tag1string((comma(3)+1):(end-1)));
 

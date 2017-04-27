@@ -70,8 +70,10 @@ end
 
 			lm = abs(lm) * ldir;
 			rm = abs(rm) * rdir;
+			inputVector(1) = lm;
+			inputVector(2) = rm;
 
-			mPower = uint16([datamap(inputVector(1), -1.0, 1.0, 0.0, 2048.0) datamap(inputVector(2), -1.0, 1.0, 0.0, 2048.0)]);
+			inputVector = uint16([datamap(inputVector(1), -1.0, 1.0, 0.0, 2048.0) datamap(inputVector(2), -1.0, 1.0, 0.0, 2048.0)]);
 		    topleft = uint8(bitshift(inputVector(1), -8));
 		    botleft = uint8(bitshift(bitshift(inputVector(1), 8), -8));
 		  
@@ -81,8 +83,16 @@ end
 		   
 
 		else
-			mpowers = uint16([0, 0]);
-			direction = uint16([0, 0]);
+			lm = 0;
+			rm = 0;
+			inputVector = uint16([datamap(inputVector(1), -1.0, 1.0, 0.0, 2048.0) datamap(inputVector(2), -1.0, 1.0, 0.0, 2048.0)]);
+		    topleft = uint8(bitshift(inputVector(1), -8));
+		    botleft = uint8(bitshift(bitshift(inputVector(1), 8), -8));
+		  
+		    topright = uint8(bitshift(inputVector(2), -8));
+		    botright = uint8(bitshift(bitshift(inputVector(2), 8), -8));
+			A = uint8([scrdstid controlschem topleft botleft topright botright]);
+		   
 
 		end
 

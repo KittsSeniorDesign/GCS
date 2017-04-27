@@ -32,7 +32,7 @@ end
 		mx = str2num(tag1string(2:(comma(1)-1)));
 		my = str2num(tag1string((comma(1)+1):(comma(2)-1)));
 		mz = str2num(tag1string((comma(2)+1):(comma(3)-1)));
-		mh = str2num(tag1string((comma(3)+1):(end-1)));
+		thetam = str2num(tag1string((comma(3)+1):(end-1)));
 
 
 		if (x > waypointThresh | y > waypointThresh)
